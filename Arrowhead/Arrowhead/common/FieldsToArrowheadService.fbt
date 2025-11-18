@@ -1,41 +1,60 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd">
-<FBType Comment="Translate individual fields to an ArrowheadService type" Name="FieldsToArrowheadService">
-  <Identification Description="Copyright (c) 2018 fortiss GmbH&#13;&#10; &#13;&#10;This program and the accompanying materials are made&#13;&#10;available under the terms of the Eclipse Public License 2.0&#13;&#10;which is available at https://www.eclipse.org/legal/epl-2.0/&#13;&#10;&#13;&#10;SPDX-License-Identifier: EPL-2.0" Standard="61499-2"/>
-  <VersionInfo Author="Jose Cabral" Date="2018-09-21" Organization="fortiss GmbH" Version="1.0"/>
-  <InterfaceList>
-    <EventInputs>
-      <Event Comment="Create arrowhead service" Name="REQ" Type="Event">
-        <With Var="serviceDefinition"/>
-        <With Var="interfaces"/>
-        <With Var="serviceMetadata"/>
-      </Event>
-    </EventInputs>
-    <EventOutputs>
-      <Event Comment="Arrowhead service created" Name="CNF" Type="Event">
-        <With Var="arrowheadService"/>
-      </Event>
-    </EventOutputs>
-    <InputVars>
-      <VarDeclaration Comment="Identification of the service" Name="serviceDefinition" Type="WSTRING"/>
-      <VarDeclaration ArraySize="10" Comment="Interfaces implemented by the service" Name="interfaces" Type="WSTRING"/>
-      <VarDeclaration ArraySize="10" Comment="Metadata of the service in key=value format" Name="serviceMetadata" Type="WSTRING"/>
-    </InputVars>
-    <OutputVars>
-      <VarDeclaration Comment="Created Arrowhead service" Name="arrowheadService" Type="ArrowheadService"/>
-    </OutputVars>
-  </InterfaceList>
-  <BasicFB>
-    <ECC>
-      <ECState Comment="Initial State" Name="START" x="555.0" y="425.0"/>
-      <ECState Comment="Normal execution" Name="REQ" x="215.0" y="755.0">
-        <ECAction Algorithm="REQ" Output="CNF"/>
-      </ECState>
-      <ECTransition Comment="" Condition="REQ" Destination="REQ" Source="START" x="555.0" y="600.0"/>
-      <ECTransition Comment="" Condition="1" Destination="START" Source="REQ" x="215.0" y="425.0"/>
-    </ECC>
-    <Algorithm Comment="Normally executed algorithm" Name="REQ">
-      <ST Text="VAR&#13;&#10;  i: INT;&#13;&#10;END_VAR;&#13;&#10;&#13;&#10;i := 0;&#13;&#10;arrowheadService.serviceDefinition := serviceDefinition; &#13;&#10;&#13;&#10;WHILE i &lt; 10 DO //looks like while is faster than FOR when exporting to cpp&#13;&#10;  arrowheadService.interfaces[i] :=  interfaces[i];&#13;&#10;  arrowheadService.serviceMetadata[i] := serviceMetadata[i];&#13;&#10;  i := i + 1;&#13;&#10;END_WHILE&#10;"/>
-    </Algorithm>
-  </BasicFB>
+<?xml version="1.0" encoding="UTF-8"?>
+<FBType Name="FieldsToArrowheadService" Comment="Translate individual fields to an ArrowheadService type">
+	<Identification Standard="61499-2" Description="Copyright (c) 2018 fortiss GmbH&#10; &#10;This program and the accompanying materials are made&#10;available under the terms of the Eclipse Public License 2.0&#10;which is available at https://www.eclipse.org/legal/epl-2.0/&#10;&#10;SPDX-License-Identifier: EPL-2.0">
+	</Identification>
+	<VersionInfo Organization="fortiss GmbH" Version="1.0" Author="Jose Cabral" Date="2018-09-21">
+	</VersionInfo>
+	<InterfaceList>
+		<EventInputs>
+			<Event Name="REQ" Type="Event" Comment="Create arrowhead service">
+				<With Var="serviceDefinition"/>
+				<With Var="interfaces"/>
+				<With Var="serviceMetadata"/>
+			</Event>
+		</EventInputs>
+		<EventOutputs>
+			<Event Name="CNF" Type="Event" Comment="Arrowhead service created">
+				<With Var="arrowheadService"/>
+			</Event>
+		</EventOutputs>
+		<InputVars>
+			<VarDeclaration Name="serviceDefinition" Type="WSTRING" Comment="Identification of the service"/>
+			<VarDeclaration Name="interfaces" Type="WSTRING" Comment="Interfaces implemented by the service" ArraySize="10"/>
+			<VarDeclaration Name="serviceMetadata" Type="WSTRING" Comment="Metadata of the service in key=value format" ArraySize="10"/>
+		</InputVars>
+		<OutputVars>
+			<VarDeclaration Name="arrowheadService" Type="ArrowheadService" Comment="Created Arrowhead service"/>
+		</OutputVars>
+	</InterfaceList>
+	<BasicFB>
+		<ECC>
+			<ECState Name="START" Comment="Initial State" x="555" y="425">
+			</ECState>
+			<ECState Name="REQ" Comment="Normal execution" x="215" y="755">
+				<ECAction Algorithm="REQ" Output="CNF"/>
+			</ECState>
+			<ECTransition Source="START" Destination="REQ" Condition="REQ" Comment="" x="555" y="600"/>
+			<ECTransition Source="REQ" Destination="START" Condition="1" Comment="" x="215" y="425"/>
+		</ECC>
+		<Algorithm Name="REQ">
+			<ST><![CDATA[ALGORITHM REQ
+
+VAR_TEMP
+	i : INT;
+END_VAR
+;
+
+i := 0;
+arrowheadService.serviceDefinition := serviceDefinition;
+
+WHILE i < 10 DO // looks like while is faster than FOR when exporting to cpp
+	arrowheadService.interfaces[i] := interfaces[i];
+	arrowheadService.serviceMetadata[i] := serviceMetadata[i];
+	i := i + 1;
+END_WHILE;
+END_ALGORITHM
+
+]]></ST>
+		</Algorithm>
+	</BasicFB>
 </FBType>

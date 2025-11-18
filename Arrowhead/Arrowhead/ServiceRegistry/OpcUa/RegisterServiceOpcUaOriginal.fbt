@@ -1,76 +1,81 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd">
-<FBType Comment="Register Service using OPC UA" Name="RegisterServiceOpcUaOriginal">
-  <Identification Description="Copyright (c) 2019 fortiss GmbH&#13;&#10; &#13;&#10;This program and the accompanying materials are made&#13;&#10;available under the terms of the Eclipse Public License 2.0&#13;&#10;which is available at https://www.eclipse.org/legal/epl-2.0/&#13;&#10;&#13;&#10;SPDX-License-Identifier: EPL-2.0" Standard="61499-2"/>
-  <VersionInfo Author="Jose Cabral" Date="2019-09-17" Organization="fortiss GmbH" Version="1.0"/>
-  <InterfaceList>
-    <EventOutputs>
-      <Event Comment="" Name="registryDone" Type="Event">
-        <With Var="registryStatus"/>
-      </Event>
-    </EventOutputs>
-    <OutputVars>
-      <VarDeclaration Comment="" Name="registryStatus" Type="STRING"/>
-    </OutputVars>
-    <Sockets>
-      <AdapterDeclaration Comment="Register Service adapter" Name="registerService" Type="RegisterServiceAdp" x="-155.0" y="1810.0"/>
-    </Sockets>
-  </InterfaceList>
-  <FBNetwork>
-    <FB Comment="" Name="CreateRegisterID" Type="APPEND_STRING_3" x="3400.0" y="900.0">
-      <Parameter Name="IN_1" Value="STRING#opc_ua["/>
-      <Parameter Name="IN_3" Value="STRING##(2:,register,)]"/>
-    </FB>
-    <FB Comment="" Name="F_STRING_TO_WSTRING" Type="F_STRING_TO_WSTRING" x="4600.0" y="900.0"/>
-    <FB Comment="" Name="CreateUnRegisterID" Type="APPEND_STRING_3" x="3400.0" y="3000.0">
-      <Parameter Name="IN_1" Value="STRING#opc_ua["/>
-      <Parameter Name="IN_3" Value="STRING##(2:,remove,)]"/>
-    </FB>
-    <FB Comment="" Name="F_STRING_TO_WSTRING_1" Type="F_STRING_TO_WSTRING" x="4585.0" y="3000.0"/>
-    <FB Comment="" Name="ANYToJSON" Type="ANYToJSON" x="6000.0" y="1905.0"/>
-    <FB Comment="" Name="CLIENT_1_0" Type="CLIENT_1_0" x="10100.0" y="2000.0">
-      <Parameter Name="QI" Value="1"/>
-    </FB>
-    <FB Comment="" Name="CLIENT_1_0_1" Type="CLIENT_1" x="10800.0" y="700.0">
-      <Parameter Name="QI" Value="1"/>
-    </FB>
-    <FB Comment="" Name="STRING2STRING" Type="STRING2STRING" x="11700.0" y="800.0"/>
-    <FB Comment="" Name="E_DELAY" Type="E_DELAY" x="10000.0" y="300.0">
-      <Parameter Name="DT" Value="T#1s"/>
-    </FB>
-    <FB Comment="" Name="E_DELAY_1" Type="E_DELAY" x="9300.0" y="1400.0">
-      <Parameter Name="DT" Value="T#1s"/>
-    </FB>
-    <EventConnections>
-      <Connection Comment="" Destination="F_STRING_TO_WSTRING.REQ" Source="CreateRegisterID.CNF"/>
-      <Connection Comment="" Destination="F_STRING_TO_WSTRING_1.REQ" Source="CreateUnRegisterID.CNF"/>
-      <Connection Comment="" Destination="ANYToJSON.REQ" Source="F_STRING_TO_WSTRING.CNF" dx1="265.0"/>
-      <Connection Comment="" Destination="ANYToJSON.REQ" Source="F_STRING_TO_WSTRING_1.CNF" dx1="260.0"/>
-      <Connection Comment="" Destination="CreateRegisterID.REQ" Source="registerService.registerService" dx1="1185.0"/>
-      <Connection Comment="" Destination="CreateUnRegisterID.REQ" Source="registerService.unregisterService" dx1="1185.0"/>
-      <Connection Comment="" Destination="registerService.doneUnregister" Source="CLIENT_1_0.CNF" dx1="570.0" dx2="60.0" dy="1740.0"/>
-      <Connection Comment="" Destination="registerService.doneRegister" Source="CLIENT_1_0_1.CNF" dx1="60.0" dx2="60.0" dy="175.0"/>
-      <Connection Comment="" Destination="STRING2STRING.REQ" Source="CLIENT_1_0_1.CNF"/>
-      <Connection Comment="" Destination="registryDone" Source="STRING2STRING.CNF" dx1="60.0" dx2="60.0" dy="-440.0"/>
-      <Connection Comment="" Destination="CLIENT_1_0_1.REQ" Source="E_DELAY.EO" dx1="195.0"/>
-      <Connection Comment="" Destination="E_DELAY.START" Source="CLIENT_1_0_1.INITO" dx1="60.0" dx2="60.0" dy="-200.0"/>
-      <Connection Comment="" Destination="CLIENT_1_0_1.INIT" Source="F_STRING_TO_WSTRING.CNF" dx1="2655.0"/>
-      <Connection Comment="" Destination="CLIENT_1_0.INIT" Source="F_STRING_TO_WSTRING_1.CNF" dx1="2300.0"/>
-      <Connection Comment="" Destination="E_DELAY_1.START" Source="CLIENT_1_0.INITO" dx1="60.0" dx2="330.0" dy="-160.0"/>
-      <Connection Comment="" Destination="CLIENT_1_0.REQ" Source="E_DELAY_1.EO" dx1="175.0"/>
-    </EventConnections>
-    <DataConnections>
-      <Connection Comment="" Destination="F_STRING_TO_WSTRING.IN" Source="CreateRegisterID.OUT"/>
-      <Connection Comment="" Destination="F_STRING_TO_WSTRING_1.IN" Source="CreateUnRegisterID.OUT"/>
-      <Connection Comment="" Destination="ANYToJSON.input" Source="registerService.serviceRegistryEntry" dx1="2595.0"/>
-      <Connection Comment="" Destination="CreateRegisterID.IN_2" Source="registerService.endpoint" dx1="755.0"/>
-      <Connection Comment="" Destination="CreateUnRegisterID.IN_2" Source="registerService.endpoint" dx1="765.0"/>
-      <Connection Comment="" Destination="CLIENT_1_0_1.ID" Source="F_STRING_TO_WSTRING.OUT"/>
-      <Connection Comment="" Destination="CLIENT_1_0_1.SD_1" Source="ANYToJSON.output" dx1="2355.0"/>
-      <Connection Comment="" Destination="STRING2STRING.IN" Source="CLIENT_1_0_1.RD_1" dx1="235.0"/>
-      <Connection Comment="" Destination="registryStatus" Source="STRING2STRING.OUT" dx1="60.0" dx2="60.0" dy="-515.0"/>
-      <Connection Comment="" Destination="CLIENT_1_0.ID" Source="F_STRING_TO_WSTRING_1.OUT" dx1="2300.0"/>
-      <Connection Comment="" Destination="CLIENT_1_0.SD_1" Source="ANYToJSON.output" dx1="1800.0"/>
-    </DataConnections>
-  </FBNetwork>
+<?xml version="1.0" encoding="UTF-8"?>
+<FBType Name="RegisterServiceOpcUaOriginal" Comment="Register Service using OPC UA">
+	<Identification Standard="61499-2" Description="Copyright (c) 2019 fortiss GmbH&#10; &#10;This program and the accompanying materials are made&#10;available under the terms of the Eclipse Public License 2.0&#10;which is available at https://www.eclipse.org/legal/epl-2.0/&#10;&#10;SPDX-License-Identifier: EPL-2.0">
+	</Identification>
+	<VersionInfo Organization="fortiss GmbH" Version="1.0" Author="Jose Cabral" Date="2019-09-17">
+	</VersionInfo>
+	<InterfaceList>
+		<EventOutputs>
+			<Event Name="registryDone" Type="Event">
+				<With Var="registryStatus"/>
+			</Event>
+		</EventOutputs>
+		<OutputVars>
+			<VarDeclaration Name="registryStatus" Type="STRING"/>
+		</OutputVars>
+		<Sockets>
+			<AdapterDeclaration Name="registerService" Type="RegisterServiceAdp" Comment="Register Service adapter" x="-155" y="1810"/>
+		</Sockets>
+	</InterfaceList>
+	<FBNetwork>
+		<FB Name="CreateRegisterID" Type="APPEND_STRING_3" x="3400" y="900">
+			<Parameter Name="IN_1" Value="STRING#'opc_ua[]'"/>
+			<Parameter Name="IN_3" Value="STRING#'#(2:,register,)]'"/>
+		</FB>
+		<FB Name="F_STRING_TO_WSTRING" Type="F_STRING_TO_WSTRING" x="4600" y="900">
+		</FB>
+		<FB Name="CreateUnRegisterID" Type="APPEND_STRING_3" x="3400" y="3000">
+			<Parameter Name="IN_1" Value="STRING#'opc_ua[]'"/>
+			<Parameter Name="IN_3" Value="STRING#'#(2:,remove,)]'"/>
+		</FB>
+		<FB Name="F_STRING_TO_WSTRING_1" Type="F_STRING_TO_WSTRING" x="4585" y="3000">
+		</FB>
+		<FB Name="ANYToJSON" Type="ANYToJSON" x="6000" y="1905">
+		</FB>
+		<FB Name="CLIENT_1_0" Type="CLIENT_1_0" x="10100" y="2000">
+			<Parameter Name="QI" Value="1"/>
+		</FB>
+		<FB Name="CLIENT_1_0_1" Type="CLIENT_1" x="10800" y="700">
+			<Parameter Name="QI" Value="1"/>
+		</FB>
+		<FB Name="STRING2STRING" Type="STRING2STRING" x="11700" y="800">
+		</FB>
+		<FB Name="E_DELAY" Type="E_DELAY" x="10000" y="300">
+			<Parameter Name="DT" Value="T#1s"/>
+		</FB>
+		<FB Name="E_DELAY_1" Type="E_DELAY" x="9300" y="1400">
+			<Parameter Name="DT" Value="T#1s"/>
+		</FB>
+		<EventConnections>
+			<Connection Source="CreateRegisterID.CNF" Destination="F_STRING_TO_WSTRING.REQ"/>
+			<Connection Source="CreateUnRegisterID.CNF" Destination="F_STRING_TO_WSTRING_1.REQ"/>
+			<Connection Source="F_STRING_TO_WSTRING.CNF" Destination="ANYToJSON.REQ" dx1="265"/>
+			<Connection Source="F_STRING_TO_WSTRING_1.CNF" Destination="ANYToJSON.REQ" dx1="260"/>
+			<Connection Source="registerService.registerService" Destination="CreateRegisterID.REQ" dx1="1185"/>
+			<Connection Source="registerService.unregisterService" Destination="CreateUnRegisterID.REQ" dx1="1185"/>
+			<Connection Source="CLIENT_1_0.CNF" Destination="registerService.doneUnregister" dx1="570" dx2="60" dy="1740"/>
+			<Connection Source="CLIENT_1_0_1.CNF" Destination="registerService.doneRegister" dx1="60" dx2="60" dy="175"/>
+			<Connection Source="CLIENT_1_0_1.CNF" Destination="STRING2STRING.REQ"/>
+			<Connection Source="STRING2STRING.CNF" Destination="registryDone" dx1="60" dx2="60" dy="-440"/>
+			<Connection Source="E_DELAY.EO" Destination="CLIENT_1_0_1.REQ" dx1="195"/>
+			<Connection Source="CLIENT_1_0_1.INITO" Destination="E_DELAY.START" dx1="60" dx2="60" dy="-200"/>
+			<Connection Source="F_STRING_TO_WSTRING.CNF" Destination="CLIENT_1_0_1.INIT" dx1="2655"/>
+			<Connection Source="F_STRING_TO_WSTRING_1.CNF" Destination="CLIENT_1_0.INIT" dx1="2300"/>
+			<Connection Source="CLIENT_1_0.INITO" Destination="E_DELAY_1.START" dx1="60" dx2="330" dy="-160"/>
+			<Connection Source="E_DELAY_1.EO" Destination="CLIENT_1_0.REQ" dx1="175"/>
+		</EventConnections>
+		<DataConnections>
+			<Connection Source="CreateRegisterID.OUT" Destination="F_STRING_TO_WSTRING.IN"/>
+			<Connection Source="CreateUnRegisterID.OUT" Destination="F_STRING_TO_WSTRING_1.IN"/>
+			<Connection Source="registerService.serviceRegistryEntry" Destination="ANYToJSON.input" dx1="2595"/>
+			<Connection Source="registerService.endpoint" Destination="CreateRegisterID.IN_2" dx1="755"/>
+			<Connection Source="registerService.endpoint" Destination="CreateUnRegisterID.IN_2" dx1="765"/>
+			<Connection Source="F_STRING_TO_WSTRING.OUT" Destination="CLIENT_1_0_1.ID"/>
+			<Connection Source="ANYToJSON.output" Destination="CLIENT_1_0_1.SD_1" dx1="2355"/>
+			<Connection Source="CLIENT_1_0_1.RD_1" Destination="STRING2STRING.IN" dx1="235"/>
+			<Connection Source="STRING2STRING.OUT" Destination="registryStatus" dx1="60" dx2="60" dy="-515"/>
+			<Connection Source="F_STRING_TO_WSTRING_1.OUT" Destination="CLIENT_1_0.ID" dx1="2300"/>
+			<Connection Source="ANYToJSON.output" Destination="CLIENT_1_0.SD_1" dx1="1800"/>
+		</DataConnections>
+	</FBNetwork>
 </FBType>

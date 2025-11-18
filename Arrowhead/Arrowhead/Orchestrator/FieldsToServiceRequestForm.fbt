@@ -1,47 +1,69 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd">
-<FBType Comment="Translate individual fields to a ServiceRequestForm type" Name="FieldsToServiceRequestForm">
-  <Identification Description="Copyright (c) 2018 fortiss GmbH&#13;&#10; &#13;&#10;This program and the accompanying materials are made&#13;&#10;available under the terms of the Eclipse Public License 2.0&#13;&#10;which is available at https://www.eclipse.org/legal/epl-2.0/&#13;&#10;&#13;&#10;SPDX-License-Identifier: EPL-2.0" Standard="61499-2"/>
-  <VersionInfo Author="Jose Cabral" Date="2018-08-21" Organization="fortiss GmbH" Version="1.0"/>
-  <InterfaceList>
-    <EventInputs>
-      <Event Comment="Create ServiceRequestForm " Name="REQ" Type="Event">
-        <With Var="requesterSystem"/>
-        <With Var="requesterCloud"/>
-        <With Var="requestedQoS"/>
-        <With Var="preferredProviders"/>
-        <With Var="orchestrationFlags"/>
-        <With Var="requestedService"/>
-      </Event>
-    </EventInputs>
-    <EventOutputs>
-      <Event Comment="ServiceRequestForm  created" Name="CNF" Type="Event">
-        <With Var="serviceRequestForm"/>
-      </Event>
-    </EventOutputs>
-    <InputVars>
-      <VarDeclaration Comment="The ArrowheadSystem identifier that is requesting the orchestration" Name="requesterSystem" Type="ArrowheadSystem"/>
-      <VarDeclaration Comment="Not to be used by Application Systems. This field is only used when there is an inbound request from another Cloud. This can only be submitted by the Gatekeeper" Name="requesterCloud" Type="ArrowheadCloud"/>
-      <VarDeclaration Comment="When not filled out, the Orchestrator operate in the ”default configuration” mode. When filled out, other fields will affect how the orchestration will work – but the Service will be specified by the Consumer in advance then" Name="requestedService" Type="ArrowheadService"/>
-      <VarDeclaration ArraySize="10" Comment="These flags can be set to tailor the orchestration process (use just the names of the flags to be enabled)" Name="orchestrationFlags" Type="WSTRING"/>
-      <VarDeclaration ArraySize="10" Comment="There can be a list from the Consumer stating which other Application Systems (even from other Clouds) it wishes to connect. If this field is filled out, the Orchestrator will try to facilitate these preferences" Name="preferredProviders" Type="PreferredProvider"/>
-      <VarDeclaration ArraySize="10" Comment="This object will be presenting the Consumer’s selected QoS level. Not implemented" Name="requestedQoS" Type="WSTRING"/>
-    </InputVars>
-    <OutputVars>
-      <VarDeclaration Comment="Created ServiceRequestForm" Name="serviceRequestForm" Type="ServiceRequestForm"/>
-    </OutputVars>
-  </InterfaceList>
-  <BasicFB>
-    <ECC>
-      <ECState Comment="Initial State" Name="START" x="555.0" y="425.0"/>
-      <ECState Comment="Normal execution" Name="REQ" x="215.0" y="755.0">
-        <ECAction Algorithm="REQ" Output="CNF"/>
-      </ECState>
-      <ECTransition Comment="" Condition="REQ" Destination="REQ" Source="START" x="555.0" y="600.0"/>
-      <ECTransition Comment="" Condition="1" Destination="START" Source="REQ" x="215.0" y="425.0"/>
-    </ECC>
-    <Algorithm Comment="Normally executed algorithm" Name="REQ">
-      <ST Text="VAR&#13;&#10;  i: INT;&#13;&#10;END_VAR;&#13;&#10;&#13;&#10;serviceRequestForm.requesterSystem := requesterSystem; &#13;&#10;serviceRequestForm.requesterCloud := requesterCloud; &#13;&#10;serviceRequestForm.requestedService := requestedService; &#13;&#10;&#13;&#10;&#13;&#10;i := 0;&#13;&#10;WHILE i &lt; 10 DO //looks like while is faster than FOR when exporting to cpp&#13;&#10;  serviceRequestForm.orchestrationFlags[i] :=  orchestrationFlags[i];&#13;&#10;  serviceRequestForm.preferredProviders[i] := preferredProviders[i];&#13;&#10;  serviceRequestForm.requestedQoS[i] := requestedQoS[i];&#13;&#10;  i := i + 1;&#13;&#10;END_WHILE&#13;&#10;&#13;&#10;&#13;&#10;&#13;&#10;&#13;&#10;&#10;"/>
-    </Algorithm>
-  </BasicFB>
+<?xml version="1.0" encoding="UTF-8"?>
+<FBType Name="FieldsToServiceRequestForm" Comment="Translate individual fields to a ServiceRequestForm type">
+	<Identification Standard="61499-2" Description="Copyright (c) 2018 fortiss GmbH&#10; &#10;This program and the accompanying materials are made&#10;available under the terms of the Eclipse Public License 2.0&#10;which is available at https://www.eclipse.org/legal/epl-2.0/&#10;&#10;SPDX-License-Identifier: EPL-2.0">
+	</Identification>
+	<VersionInfo Organization="fortiss GmbH" Version="1.0" Author="Jose Cabral" Date="2018-08-21">
+	</VersionInfo>
+	<InterfaceList>
+		<EventInputs>
+			<Event Name="REQ" Type="Event" Comment="Create ServiceRequestForm ">
+				<With Var="requesterSystem"/>
+				<With Var="requesterCloud"/>
+				<With Var="requestedQoS"/>
+				<With Var="preferredProviders"/>
+				<With Var="orchestrationFlags"/>
+				<With Var="requestedService"/>
+			</Event>
+		</EventInputs>
+		<EventOutputs>
+			<Event Name="CNF" Type="Event" Comment="ServiceRequestForm  created">
+				<With Var="serviceRequestForm"/>
+			</Event>
+		</EventOutputs>
+		<InputVars>
+			<VarDeclaration Name="requesterSystem" Type="ArrowheadSystem" Comment="The ArrowheadSystem identifier that is requesting the orchestration"/>
+			<VarDeclaration Name="requesterCloud" Type="ArrowheadCloud" Comment="Not to be used by Application Systems. This field is only used when there is an inbound request from another Cloud. This can only be submitted by the Gatekeeper"/>
+			<VarDeclaration Name="requestedService" Type="ArrowheadService" Comment="When not filled out, the Orchestrator operate in the ”default configuration” mode. When filled out, other fields will affect how the orchestration will work – but the Service will be specified by the Consumer in advance then"/>
+			<VarDeclaration Name="orchestrationFlags" Type="WSTRING" Comment="These flags can be set to tailor the orchestration process (use just the names of the flags to be enabled)" ArraySize="10"/>
+			<VarDeclaration Name="preferredProviders" Type="PreferredProvider" Comment="There can be a list from the Consumer stating which other Application Systems (even from other Clouds) it wishes to connect. If this field is filled out, the Orchestrator will try to facilitate these preferences" ArraySize="0..9"/>
+			<VarDeclaration Name="requestedQoS" Type="WSTRING" Comment="This object will be presenting the Consumer’s selected QoS level. Not implemented" ArraySize="10"/>
+		</InputVars>
+		<OutputVars>
+			<VarDeclaration Name="serviceRequestForm" Type="ServiceRequestForm" Comment="Created ServiceRequestForm"/>
+		</OutputVars>
+	</InterfaceList>
+	<BasicFB>
+		<ECC>
+			<ECState Name="START" Comment="Initial State" x="555" y="425">
+			</ECState>
+			<ECState Name="REQ" Comment="Normal execution" x="215" y="755">
+				<ECAction Algorithm="REQ" Output="CNF"/>
+			</ECState>
+			<ECTransition Source="START" Destination="REQ" Condition="REQ" Comment="" x="555" y="600"/>
+			<ECTransition Source="REQ" Destination="START" Condition="1" Comment="" x="215" y="425"/>
+		</ECC>
+		<Algorithm Name="REQ">
+			<ST><![CDATA[ALGORITHM REQ
+VAR_TEMP
+	i : INT;
+END_VAR
+;
+
+serviceRequestForm.requesterSystem := requesterSystem;
+serviceRequestForm.requesterCloud := requesterCloud;
+serviceRequestForm.requestedService := requestedService;
+
+i := 0;
+WHILE i < 10 DO // looks like while is faster than FOR when exporting to cpp
+	serviceRequestForm.orchestrationFlags[i] := orchestrationFlags[i];
+	serviceRequestForm.preferredProviders[i] := preferredProviders[i];
+	serviceRequestForm.requestedQoS[i] := requestedQoS[i];
+	i := i + 1;
+END_WHILE;
+
+END_ALGORITHM
+
+]]></ST>
+		</Algorithm>
+	</BasicFB>
 </FBType>

@@ -1,46 +1,53 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd">
-<FBType Comment="Query for Services using HTTP" Name="QueryServiceHTTP">
-  <Identification Description="Copyright (c) 2018 fortiss GmbH&#13;&#10; &#13;&#10;This program and the accompanying materials are made&#13;&#10;available under the terms of the Eclipse Public License 2.0&#13;&#10;which is available at https://www.eclipse.org/legal/epl-2.0/&#13;&#10;&#13;&#10;SPDX-License-Identifier: EPL-2.0" Standard="61499-2"/>
-  <VersionInfo Author="Jose Cabral" Date="2018-09-21" Organization="fortiss GmbH" Version="1.0"/>
-  <InterfaceList>
-    <Sockets>
-      <AdapterDeclaration Comment="" Name="queryServices" Type="QueryServicesAdp" x="2000.0" y="1400.0"/>
-    </Sockets>
-  </InterfaceList>
-  <FBNetwork>
-    <FB Comment="" Name="APPEND_STRING_3" Type="APPEND_STRING_3" x="4300.0" y="2060.0">
-      <Parameter Name="IN_1" Value="STRING#http["/>
-      <Parameter Name="IN_3" Value="STRING#/query; PUT; application/json]"/>
-    </FB>
-    <FB Comment="" Name="Query" Type="CLIENT_1_2" x="8600.0" y="1670.0"/>
-    <FB Comment="" Name="F_STRING_TO_WSTRING" Type="F_STRING_TO_WSTRING" x="5695.0" y="2085.0"/>
-    <FB Comment="" Name="InitFlag" Type="E_SR" x="6975.0" y="1685.0"/>
-    <FB Comment="" Name="E_PERMIT" Type="E_PERMIT" x="7840.0" y="810.0"/>
-    <FB Comment="" Name="ANYToJSON" Type="ANYToJSON" x="3460.0" y="1395.0"/>
-    <FB Comment="" Name="GetHTTPResult" Type="GetArrayResponseFromJSON" x="500.0" y="1400.0"/>
-    <DataConnections>
-      <Connection Comment="" Destination="F_STRING_TO_WSTRING.IN" Source="APPEND_STRING_3.OUT" dx1="285.0"/>
-      <Connection Comment="" Destination="Query.ID" Source="F_STRING_TO_WSTRING.OUT" dx1="840.0"/>
-      <Connection Comment="" Destination="E_PERMIT.PERMIT" Source="InitFlag.Q" dx1="205.0"/>
-      <Connection Comment="" Destination="Query.QI" Source="InitFlag.Q" dx1="370.0"/>
-      <Connection Comment="" Destination="Query.SD_1" Source="ANYToJSON.output" dx1="4045.0"/>
-      <Connection Comment="" Destination="ANYToJSON.input" Source="queryServices.serviceQueryForm" dx1="265.0"/>
-      <Connection Comment="" Destination="APPEND_STRING_3.IN_2" Source="queryServices.endpoint" dx1="325.0"/>
-      <Connection Comment="" Destination="GetHTTPResult.response" Source="Query.RD_2" dx1="60.0" dx2="60.0" dy="460.0"/>
-      <Connection Comment="" Destination="queryServices.serviceEntries" Source="GetHTTPResult.output"/>
-    </DataConnections>
-    <EventConnections>
-      <Connection Comment="" Destination="F_STRING_TO_WSTRING.REQ" Source="APPEND_STRING_3.CNF" dx1="285.0"/>
-      <Connection Comment="" Destination="InitFlag.S" Source="F_STRING_TO_WSTRING.CNF" dx1="190.0"/>
-      <Connection Comment="" Destination="Query.INIT" Source="InitFlag.EO" dx1="295.0"/>
-      <Connection Comment="" Destination="E_PERMIT.EI" Source="Query.INITO" dx1="60.0" dx2="60.0" dy="-1290.0"/>
-      <Connection Comment="" Destination="Query.REQ" Source="E_PERMIT.EO" dx1="260.0"/>
-      <Connection Comment="" Destination="InitFlag.R" Source="Query.CNF" dx1="260.0" dx2="150.0" dy="-1650.0"/>
-      <Connection Comment="" Destination="APPEND_STRING_3.REQ" Source="ANYToJSON.CNF" dx1="180.0"/>
-      <Connection Comment="" Destination="ANYToJSON.REQ" Source="queryServices.query" dx1="265.0"/>
-      <Connection Comment="" Destination="GetHTTPResult.REQ" Source="Query.CNF" dx1="405.0" dx2="60.0" dy="-1900.0"/>
-      <Connection Comment="" Destination="queryServices.queried" Source="GetHTTPResult.CNF"/>
-    </EventConnections>
-  </FBNetwork>
+<?xml version="1.0" encoding="UTF-8"?>
+<FBType Name="QueryServiceHTTP" Comment="Query for Services using HTTP">
+	<Identification Standard="61499-2" Description="Copyright (c) 2018 fortiss GmbH&#10; &#10;This program and the accompanying materials are made&#10;available under the terms of the Eclipse Public License 2.0&#10;which is available at https://www.eclipse.org/legal/epl-2.0/&#10;&#10;SPDX-License-Identifier: EPL-2.0">
+	</Identification>
+	<VersionInfo Organization="fortiss GmbH" Version="1.0" Author="Jose Cabral" Date="2018-09-21">
+	</VersionInfo>
+	<InterfaceList>
+		<Sockets>
+			<AdapterDeclaration Name="queryServices" Type="QueryServicesAdp" x="2000" y="1400"/>
+		</Sockets>
+	</InterfaceList>
+	<FBNetwork>
+		<FB Name="APPEND_STRING_3" Type="APPEND_STRING_3" x="4300" y="2060">
+			<Parameter Name="IN_1" Value="STRING#'http[]'"/>
+			<Parameter Name="IN_3" Value="STRING#'/query; PUT; application/json]'"/>
+		</FB>
+		<FB Name="Query" Type="CLIENT_1_2" x="8600" y="1670">
+		</FB>
+		<FB Name="F_STRING_TO_WSTRING" Type="F_STRING_TO_WSTRING" x="5695" y="2085">
+		</FB>
+		<FB Name="InitFlag" Type="E_SR" x="6975" y="1685">
+		</FB>
+		<FB Name="E_PERMIT" Type="E_PERMIT" x="7840" y="810">
+		</FB>
+		<FB Name="ANYToJSON" Type="ANYToJSON" x="3460" y="1395">
+		</FB>
+		<FB Name="GetHTTPResult" Type="GetArrayResponseFromJSON" x="500" y="1400">
+		</FB>
+		<EventConnections>
+			<Connection Source="APPEND_STRING_3.CNF" Destination="F_STRING_TO_WSTRING.REQ" dx1="285"/>
+			<Connection Source="F_STRING_TO_WSTRING.CNF" Destination="InitFlag.S" dx1="190"/>
+			<Connection Source="InitFlag.EO" Destination="Query.INIT" dx1="295"/>
+			<Connection Source="Query.INITO" Destination="E_PERMIT.EI" dx1="60" dx2="60" dy="-1290"/>
+			<Connection Source="E_PERMIT.EO" Destination="Query.REQ" dx1="260"/>
+			<Connection Source="Query.CNF" Destination="InitFlag.R" dx1="260" dx2="150" dy="-1650"/>
+			<Connection Source="ANYToJSON.CNF" Destination="APPEND_STRING_3.REQ" dx1="180"/>
+			<Connection Source="queryServices.query" Destination="ANYToJSON.REQ" dx1="265"/>
+			<Connection Source="Query.CNF" Destination="GetHTTPResult.REQ" dx1="405" dx2="60" dy="-1900"/>
+			<Connection Source="GetHTTPResult.CNF" Destination="queryServices.queried"/>
+		</EventConnections>
+		<DataConnections>
+			<Connection Source="APPEND_STRING_3.OUT" Destination="F_STRING_TO_WSTRING.IN" dx1="285"/>
+			<Connection Source="F_STRING_TO_WSTRING.OUT" Destination="Query.ID" dx1="840"/>
+			<Connection Source="InitFlag.Q" Destination="E_PERMIT.PERMIT" dx1="205"/>
+			<Connection Source="InitFlag.Q" Destination="Query.QI" dx1="370"/>
+			<Connection Source="ANYToJSON.output" Destination="Query.SD_1" dx1="4045"/>
+			<Connection Source="queryServices.serviceQueryForm" Destination="ANYToJSON.input" dx1="265"/>
+			<Connection Source="queryServices.endpoint" Destination="APPEND_STRING_3.IN_2" dx1="325"/>
+			<Connection Source="Query.RD_2" Destination="GetHTTPResult.response" dx1="60" dx2="60" dy="460"/>
+			<Connection Source="GetHTTPResult.output" Destination="queryServices.serviceEntries"/>
+		</DataConnections>
+	</FBNetwork>
 </FBType>
