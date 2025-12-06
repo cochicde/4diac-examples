@@ -9,4 +9,16 @@
 	<natures>
 		<nature>org.eclipse.fordiac.ide.systemmanagement.FordiacNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>External Libraries</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>Standard Libraries</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>

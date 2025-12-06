@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SubAppType Name="ManyOutputsSIFB025" Comment="Subapplication Type">
+	<Identification Standard="61499-2">
+	</Identification>
+	<VersionInfo Version="1.0" Author="cochicde" Date="2025-05-03">
+	</VersionInfo>
+	<CompilerInfo>
+	</CompilerInfo>
+	<SubAppInterfaceList>
+		<SubAppEventInputs>
+			<SubAppEvent Name="EI0" Type="Event">
+			</SubAppEvent>
+		</SubAppEventInputs>
+		<SubAppEventOutputs>
+			<SubAppEvent Name="CNF" Type="Event">
+			</SubAppEvent>
+		</SubAppEventOutputs>
+	</SubAppInterfaceList>
+	<SubAppNetwork>
+		<FB Name="F_DINT_TO_UINT" Type="F_DINT_TO_UINT" x="2100" y="100">
+		</FB>
+		<FB Name="Generator_1" Type="performance::Generator" x="1300" y="1200">
+		</FB>
+		<FB Name="F_INT_TO_UINT_1" Type="F_INT_TO_UINT" x="4800" y="100">
+		</FB>
+		<FB Name="F_INT_TO_UINT_2" Type="F_INT_TO_UINT" x="4800" y="700">
+		</FB>
+		<FB Name="Generator" Type="performance::Generator" x="0" y="0">
+		</FB>
+		<FB Name="F_UINT_TO_INT_2" Type="F_UINT_TO_INT" x="3200" y="700">
+		</FB>
+		<FB Name="F_DINT_TO_UINT_1" Type="F_DINT_TO_UINT" x="2100" y="700">
+		</FB>
+		<FB Name="F_UINT_TO_INT_1" Type="F_UINT_TO_INT" x="6000" y="100">
+		</FB>
+		<FB Name="F_UINT_TO_INT" Type="F_UINT_TO_INT" x="3200" y="100">
+		</FB>
+		<FB Name="F_UINT_TO_INT_3" Type="F_UINT_TO_INT" x="6000" y="700">
+		</FB>
+		<EventConnections>
+			<Connection Source="Generator.OUT" Destination="F_DINT_TO_UINT.REQ" dx1="736.84"/>
+			<Connection Source="F_DINT_TO_UINT.CNF" Destination="F_UINT_TO_INT.REQ"/>
+			<Connection Source="Generator_1.OUT" Destination="F_DINT_TO_UINT_1.REQ" dx1="89.47"/>
+			<Connection Source="F_UINT_TO_INT.CNF" Destination="F_INT_TO_UINT_1.REQ"/>
+			<Connection Source="F_INT_TO_UINT_1.CNF" Destination="F_UINT_TO_INT_1.REQ"/>
+			<Connection Source="F_UINT_TO_INT_2.CNF" Destination="F_INT_TO_UINT_2.REQ"/>
+			<Connection Source="F_INT_TO_UINT_2.CNF" Destination="F_UINT_TO_INT_3.REQ"/>
+			<Connection Source="F_DINT_TO_UINT_1.CNF" Destination="F_UINT_TO_INT_2.REQ"/>
+			<Connection Source="F_UINT_TO_INT_1.CNF" Destination="Generator_1.IN" dx1="63.16" dx2="63.16" dy="547.37"/>
+			<Connection Source="F_UINT_TO_INT_3.CNF" Destination="CNF" dx1="2047.37"/>
+			<Connection Source="EI0" Destination="Generator.IN" dx1="2284.21"/>
+		</EventConnections>
+		<DataConnections>
+			<Connection Source="F_DINT_TO_UINT.OUT" Destination="F_UINT_TO_INT.IN"/>
+			<Connection Source="F_UINT_TO_INT.OUT" Destination="F_INT_TO_UINT_1.IN"/>
+			<Connection Source="F_INT_TO_UINT_1.OUT" Destination="F_UINT_TO_INT_1.IN"/>
+			<Connection Source="F_UINT_TO_INT_2.OUT" Destination="F_INT_TO_UINT_2.IN"/>
+			<Connection Source="F_INT_TO_UINT_2.OUT" Destination="F_UINT_TO_INT_3.IN"/>
+			<Connection Source="F_DINT_TO_UINT_1.OUT" Destination="F_UINT_TO_INT_2.IN"/>
+		</DataConnections>
+	</SubAppNetwork>
+</SubAppType>

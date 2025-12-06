@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SubAppType Name="FBs10" Comment="Subapplication Type">
+	<Identification Standard="61499-2">
+	</Identification>
+	<VersionInfo Version="1.0" Author="cochicde" Date="2025-05-03">
+	</VersionInfo>
+	<CompilerInfo>
+	</CompilerInfo>
+	<SubAppInterfaceList>
+		<SubAppEventInputs>
+			<SubAppEvent Name="EI0" Type="Event">
+			</SubAppEvent>
+		</SubAppEventInputs>
+		<SubAppEventOutputs>
+			<SubAppEvent Name="CNF" Type="Event">
+			</SubAppEvent>
+		</SubAppEventOutputs>
+		<InputVars>
+			<VarDeclaration Name="DI0" Type="INT"/>
+		</InputVars>
+		<OutputVars>
+			<VarDeclaration Name="OUT0" Type="INT"/>
+		</OutputVars>
+	</SubAppInterfaceList>
+	<SubAppNetwork>
+		<FB Name="INT2INT" Type="INT2INT" x="5700" y="300">
+		</FB>
+		<FB Name="F_INT_TO_UINT" Type="F_INT_TO_UINT" x="1900" y="900">
+		</FB>
+		<FB Name="INT2INT_1" Type="INT2INT" x="5700" y="1400">
+		</FB>
+		<FB Name="E_REND" Type="E_REND" x="6700" y="1000">
+		</FB>
+		<FB Name="F_UINT_TO_INT" Type="F_UINT_TO_INT" x="3100" y="900">
+		</FB>
+		<FB Name="E_SPLIT_1" Type="E_SPLIT" x="4300" y="700">
+		</FB>
+		<FB Name="F_UINT_TO_INT_1" Type="F_UINT_TO_INT" x="8700" y="1000">
+		</FB>
+		<FB Name="F_INT_TO_UINT_1" Type="F_INT_TO_UINT" x="7700" y="1000">
+		</FB>
+		<FB Name="F_DINT_TO_UINT" Type="F_DINT_TO_UINT" x="10000" y="1000">
+		</FB>
+		<FB Name="F_UINT_TO_INT_2" Type="F_UINT_TO_INT" x="11000" y="1000">
+		</FB>
+		<EventConnections>
+			<Connection Source="E_REND.EO" Destination="F_INT_TO_UINT_1.REQ"/>
+			<Connection Source="INT2INT_1.CNF" Destination="E_REND.EI2" dx1="110.53"/>
+			<Connection Source="E_SPLIT_1.EO2" Destination="INT2INT_1.REQ" dx1="389.47"/>
+			<Connection Source="F_INT_TO_UINT_1.CNF" Destination="F_UINT_TO_INT_1.REQ"/>
+			<Connection Source="F_UINT_TO_INT.CNF" Destination="E_SPLIT_1.EI" dx1="368.42"/>
+			<Connection Source="E_SPLIT_1.EO1" Destination="INT2INT.REQ" dx1="442.11"/>
+			<Connection Source="INT2INT.CNF" Destination="E_REND.EI1" dx1="342.11"/>
+			<Connection Source="F_INT_TO_UINT.CNF" Destination="F_UINT_TO_INT.REQ"/>
+			<Connection Source="F_UINT_TO_INT_1.CNF" Destination="F_DINT_TO_UINT.REQ"/>
+			<Connection Source="F_DINT_TO_UINT.CNF" Destination="F_UINT_TO_INT_2.REQ"/>
+			<Connection Source="F_UINT_TO_INT_2.CNF" Destination="CNF" dx1="2705.26"/>
+			<Connection Source="EI0" Destination="F_INT_TO_UINT.REQ" dx1="2178.95"/>
+		</EventConnections>
+		<DataConnections>
+			<Connection Source="F_UINT_TO_INT.OUT" Destination="INT2INT_1.IN" dx1="215.79"/>
+			<Connection Source="F_UINT_TO_INT.OUT" Destination="INT2INT.IN" dx1="1578.95"/>
+			<Connection Source="F_INT_TO_UINT.OUT" Destination="F_UINT_TO_INT.IN"/>
+			<Connection Source="INT2INT_1.OUT" Destination="F_INT_TO_UINT_1.IN" dx1="1078.95"/>
+			<Connection Source="F_INT_TO_UINT_1.OUT" Destination="F_UINT_TO_INT_1.IN"/>
+			<Connection Source="F_UINT_TO_INT_1.OUT" Destination="F_DINT_TO_UINT.IN"/>
+			<Connection Source="F_DINT_TO_UINT.OUT" Destination="F_UINT_TO_INT_2.IN"/>
+			<Connection Source="F_UINT_TO_INT_2.OUT" Destination="OUT0" dx1="3110.53"/>
+			<Connection Source="DI0" Destination="F_INT_TO_UINT.IN" dx1="1815.79"/>
+		</DataConnections>
+	</SubAppNetwork>
+</SubAppType>

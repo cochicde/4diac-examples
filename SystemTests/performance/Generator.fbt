@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FBType Name="Generator" Comment="Service Interface Function Block Type" >
+	<Identification Standard="61499-2">
+	</Identification>
+	<VersionInfo Version="1.0" Author="cochicde" Date="2024-12-18">
+	</VersionInfo>
+	<CompilerInfo packageName="performance">
+	</CompilerInfo>
+	<InterfaceList>
+		<EventInputs>
+			<Event Name="IN" Type="Event" Comment="Service Initialization" >
+			</Event>
+		</EventInputs>
+		<EventOutputs>
+			<Event Name="OUT" Type="Event" Comment="Initialization Confirm" >
+				<With Var="_char"/>
+				<With Var="_date"/>
+				<With Var="_int"/>
+				<With Var="_uint"/>
+				<With Var="_sint"/>
+				<With Var="_usint"/>
+				<With Var="_real"/>
+				<With Var="_string"/>
+				<With Var="_bool"/>
+				<With Var="_byte"/>
+				<With Var="_date_and_time"/>
+				<With Var="_dint"/>
+				<With Var="_dword"/>
+				<With Var="_lint"/>
+				<With Var="_l_date_and_time"/>
+				<With Var="_l_date"/>
+				<With Var="_lreal"/>
+				<With Var="_ltime"/>
+				<With Var="_l_time_of_day"/>
+				<With Var="_lword"/>
+				<With Var="_time"/>
+				<With Var="_time_of_day"/>
+				<With Var="_udint"/>
+				<With Var="_ulint"/>
+				<With Var="_wchar"/>
+				<With Var="_word"/>
+				<With Var="_wstring"/>
+				<With Var="_struct"/>
+			</Event>
+		</EventOutputs>
+		<OutputVars>
+			<VarDeclaration Name="_char" Type="CHAR" Comment="Event Output Qualifier" />
+			<VarDeclaration Name="_date" Type="DATE" Comment="Service Status" />
+			<VarDeclaration Name="_int" Type="INT" Comment="Input data from resource" />
+			<VarDeclaration Name="_uint" Type="UINT"/>
+			<VarDeclaration Name="_sint" Type="SINT"/>
+			<VarDeclaration Name="_usint" Type="USINT"/>
+			<VarDeclaration Name="_real" Type="REAL"/>
+			<VarDeclaration Name="_string" Type="STRING"/>
+			<VarDeclaration Name="_bool" Type="BOOL"/>
+			<VarDeclaration Name="_byte" Type="BYTE"/>
+			<VarDeclaration Name="_date_and_time" Type="DATE_AND_TIME"/>
+			<VarDeclaration Name="_dint" Type="DINT"/>
+			<VarDeclaration Name="_dword" Type="DWORD"/>
+			<VarDeclaration Name="_lint" Type="LINT"/>
+			<VarDeclaration Name="_l_date_and_time" Type="LDATE_AND_TIME"/>
+			<VarDeclaration Name="_l_date" Type="LDATE"/>
+			<VarDeclaration Name="_lreal" Type="LREAL"/>
+			<VarDeclaration Name="_ltime" Type="LTIME"/>
+			<VarDeclaration Name="_l_time_of_day" Type="LTIME_OF_DAY"/>
+			<VarDeclaration Name="_lword" Type="LWORD"/>
+			<VarDeclaration Name="_time" Type="TIME"/>
+			<VarDeclaration Name="_time_of_day" Type="TIME_OF_DAY"/>
+			<VarDeclaration Name="_udint" Type="UDINT"/>
+			<VarDeclaration Name="_ulint" Type="ULINT"/>
+			<VarDeclaration Name="_wchar" Type="WCHAR"/>
+			<VarDeclaration Name="_word" Type="WORD"/>
+			<VarDeclaration Name="_wstring" Type="WSTRING"/>
+			<VarDeclaration Name="_struct" Type="MyStruct">
+				<Attribute Name="VarConfig" Value="false"/>
+			</VarDeclaration>
+		</OutputVars>
+	</InterfaceList>
+	<Service RightInterface="RESOURCE" LeftInterface="APPLICATION" Comment="Service Interface Function Block Type" >
+		<ServiceSequence Name="normal_establishment">
+			<ServiceTransaction>
+				<InputPrimitive Interface="APPLICATION" Event="INIT+" Parameters="PARAMS"/>
+				<OutputPrimitive Interface="RESOURCE" Event="initialize" Parameters="PARAMS"/>
+				<OutputPrimitive Interface="APPLICATION" Event="INITO+"/>
+			</ServiceTransaction>
+		</ServiceSequence>
+		<ServiceSequence Name="unsuccessful_establishment">
+			<ServiceTransaction>
+				<InputPrimitive Interface="APPLICATION" Event="INIT+" Parameters="PARAMS"/>
+				<OutputPrimitive Interface="RESOURCE" Event="initialize" Parameters="PARAMS"/>
+				<OutputPrimitive Interface="APPLICATION" Event="INITO-" Parameters="STATUS"/>
+			</ServiceTransaction>
+		</ServiceSequence>
+		<ServiceSequence Name="request_confirm">
+			<ServiceTransaction>
+				<InputPrimitive Interface="APPLICATION" Event="REQ+" Parameters="SD"/>
+				<OutputPrimitive Interface="RESOURCE" Event="request" Parameters="SD"/>
+				<OutputPrimitive Interface="APPLICATION" Event="CNF+" Parameters="RD"/>
+			</ServiceTransaction>
+		</ServiceSequence>
+		<ServiceSequence Name="request_inhibited">
+			<ServiceTransaction>
+				<InputPrimitive Interface="APPLICATION" Event="REQ-" Parameters="SD"/>
+				<OutputPrimitive Interface="APPLICATION" Event="CNF-" Parameters="STATUS"/>
+			</ServiceTransaction>
+		</ServiceSequence>
+		<ServiceSequence Name="request_error">
+			<ServiceTransaction>
+				<InputPrimitive Interface="APPLICATION" Event="REQ+" Parameters="SD"/>
+				<OutputPrimitive Interface="RESOURCE" Event="request" Parameters="SD"/>
+				<OutputPrimitive Interface="APPLICATION" Event="CNF-" Parameters="STATUS"/>
+			</ServiceTransaction>
+		</ServiceSequence>
+		<ServiceSequence Name="indication_response">
+			<ServiceTransaction>
+				<InputPrimitive Interface="RESOURCE" Event="indicate" Parameters="RD"/>
+				<OutputPrimitive Interface="APPLICATION" Event="IND+" Parameters="RD"/>
+			</ServiceTransaction>
+			<ServiceTransaction>
+				<InputPrimitive Interface="APPLICATION" Event="RSP" Parameters="QI,SD"/>
+				<OutputPrimitive Interface="RESOURCE" Event="response" Parameters="QI,SD"/>
+			</ServiceTransaction>
+		</ServiceSequence>
+		<ServiceSequence Name="indication_inhibited">
+			<ServiceTransaction>
+				<InputPrimitive Interface="RESOURCE" Event="indicate" Parameters="RD,QI=FALSE"/>
+				<OutputPrimitive Interface="RESOURCE" Event="inhibited"/>
+			</ServiceTransaction>
+		</ServiceSequence>
+		<ServiceSequence Name="error_indication">
+			<ServiceTransaction>
+				<InputPrimitive Interface="RESOURCE" Event="error" Parameters="STATUS"/>
+				<OutputPrimitive Interface="APPLICATION" Event="IND-" Parameters="STATUS"/>
+			</ServiceTransaction>
+		</ServiceSequence>
+		<ServiceSequence Name="application_initiated_termination">
+			<ServiceTransaction>
+				<InputPrimitive Interface="APPLICATION" Event="INIT-"/>
+				<OutputPrimitive Interface="RESOURCE" Event="terminate"/>
+				<OutputPrimitive Interface="APPLICATION" Event="INITO-" Parameters="STATUS"/>
+			</ServiceTransaction>
+		</ServiceSequence>
+		<ServiceSequence Name="resource_initiated_termination">
+			<ServiceTransaction>
+				<OutputPrimitive Interface="APPLICATION" Event="INITO-" Parameters="STATUS"/>
+			</ServiceTransaction>
+		</ServiceSequence>
+	</Service>
+</FBType>

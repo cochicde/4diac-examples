@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SubAppType Name="ManyOutputsSIFB100" Comment="Subapplication Type">
+	<Identification Standard="61499-2">
+	</Identification>
+	<VersionInfo Version="1.0" Author="cochicde" Date="2025-05-03">
+	</VersionInfo>
+	<CompilerInfo>
+	</CompilerInfo>
+	<SubAppInterfaceList>
+		<SubAppEventInputs>
+			<SubAppEvent Name="EI0" Type="Event">
+			</SubAppEvent>
+		</SubAppEventInputs>
+		<SubAppEventOutputs>
+			<SubAppEvent Name="CNF" Type="Event">
+			</SubAppEvent>
+		</SubAppEventOutputs>
+	</SubAppInterfaceList>
+	<SubAppNetwork>
+		<FB Name="Generator_7" Type="performance::Generator" x="5800" y="6100">
+		</FB>
+		<FB Name="Generator_3" Type="performance::Generator" x="3200" y="1500">
+		</FB>
+		<FB Name="Generator_1" Type="performance::Generator" x="1900" y="0">
+		</FB>
+		<FB Name="Generator_5" Type="performance::Generator" x="7100" y="2500">
+		</FB>
+		<FB Name="Generator_8" Type="performance::Generator" x="12300" y="8100">
+		</FB>
+		<FB Name="Generator_9" Type="performance::Generator" x="9500" y="6800">
+		</FB>
+		<FB Name="Generator_2" Type="performance::Generator" x="5100" y="1500">
+		</FB>
+		<FB Name="Generator" Type="performance::Generator" x="0" y="0">
+		</FB>
+		<FB Name="Generator_6" Type="performance::Generator" x="7700" y="6100">
+		</FB>
+		<FB Name="Generator_4" Type="performance::Generator" x="9000" y="2500">
+		</FB>
+		<EventConnections>
+			<Connection Source="Generator_4.OUT" Destination="Generator_7.IN" dx1="63.16" dx2="63.16" dy="1800"/>
+			<Connection Source="Generator_7.OUT" Destination="Generator_6.IN"/>
+			<Connection Source="Generator_1.OUT" Destination="Generator_3.IN" dx1="342.11"/>
+			<Connection Source="Generator_3.OUT" Destination="Generator_2.IN"/>
+			<Connection Source="Generator.OUT" Destination="Generator_1.IN"/>
+			<Connection Source="Generator_2.OUT" Destination="Generator_5.IN" dx1="689.47"/>
+			<Connection Source="Generator_5.OUT" Destination="Generator_4.IN"/>
+			<Connection Source="Generator_9.OUT" Destination="Generator_8.IN" dx1="1089.47"/>
+			<Connection Source="Generator_6.OUT" Destination="Generator_9.IN" dx1="589.47"/>
+			<Connection Source="Generator_8.OUT" Destination="CNF" dx1="5294.74"/>
+			<Connection Source="EI0" Destination="Generator.IN" dx1="63.16" dx2="63.16" dy="-115.79"/>
+		</EventConnections>
+	</SubAppNetwork>
+</SubAppType>

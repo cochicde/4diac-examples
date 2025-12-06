@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SubAppType Name="OneGeneratorOneConsumer_4" Comment="Subapplication Type">
+	<Identification Standard="61499-2">
+	</Identification>
+	<VersionInfo Version="1.0" Author="cochicde" Date="2025-04-27">
+	</VersionInfo>
+	<CompilerInfo>
+	</CompilerInfo>
+	<SubAppInterfaceList>
+		<SubAppEventInputs>
+			<SubAppEvent Name="EI0" Type="Event">
+			</SubAppEvent>
+		</SubAppEventInputs>
+		<SubAppEventOutputs>
+			<SubAppEvent Name="CNF" Type="Event">
+			</SubAppEvent>
+		</SubAppEventOutputs>
+	</SubAppInterfaceList>
+	<SubAppNetwork>
+		<FB Name="INT2INT" Type="INT2INT" x="1000" y="800">
+		</FB>
+		<FB Name="ConsumerInt" Type="performance::ConsumerInt_4" x="2500" y="1200">
+		</FB>
+		<FB Name="E_SPLIT_1" Type="E_SPLIT" x="268.42" y="836.84">
+		</FB>
+		<FB Name="GeneratorInt" Type="performance::GeneratorInt_4" x="-300" y="-400">
+		</FB>
+		<FB Name="INT2INT_1" Type="INT2INT" x="978.95" y="1600">
+		</FB>
+		<FB Name="F_INT_TO_UINT" Type="F_INT_TO_UINT" x="1089.47" y="26.32">
+		</FB>
+		<FB Name="F_UINT_TO_INT" Type="F_UINT_TO_INT" x="2105.26" y="26.32">
+		</FB>
+		<FB Name="E_REND" Type="E_REND" x="1794.74" y="905.26">
+		</FB>
+		<EventConnections>
+			<Connection Source="E_SPLIT_1.EO1" Destination="INT2INT.REQ" dx1="57.89"/>
+			<Connection Source="E_SPLIT_1.EO2" Destination="INT2INT_1.REQ" dx1="110.53"/>
+			<Connection Source="GeneratorInt.INITO" Destination="F_INT_TO_UINT.REQ" dx1="284.21"/>
+			<Connection Source="INT2INT.CNF" Destination="E_REND.EI1" dx1="136.84"/>
+			<Connection Source="INT2INT_1.CNF" Destination="E_REND.EI2" dx1="110.53"/>
+			<Connection Source="F_INT_TO_UINT.CNF" Destination="F_UINT_TO_INT.REQ"/>
+			<Connection Source="E_REND.EO" Destination="ConsumerInt.REQ" dx1="115.79"/>
+			<Connection Source="F_UINT_TO_INT.CNF" Destination="E_SPLIT_1.EI" dx1="184.21" dx2="342.11" dy="315.79"/>
+			<Connection Source="EI0" Destination="GeneratorInt.REQ" dx1="1294.74"/>
+			<Connection Source="ConsumerInt.CNF" Destination="CNF" dx1="1736.84"/>
+		</EventConnections>
+		<DataConnections>
+			<Connection Source="GeneratorInt.RD" Destination="F_INT_TO_UINT.IN" dx1="284.21"/>
+			<Connection Source="F_UINT_TO_INT.OUT" Destination="INT2INT.IN" dx1="57.89" dx2="157.89" dy="368.42"/>
+			<Connection Source="F_UINT_TO_INT.OUT" Destination="INT2INT_1.IN" dx1="57.89" dx2="868.42" dy="289.47"/>
+			<Connection Source="INT2INT.OUT" Destination="ConsumerInt.SD" dx1="184.21"/>
+			<Connection Source="F_INT_TO_UINT.OUT" Destination="F_UINT_TO_INT.IN"/>
+			<Connection Source="INT2INT.OUT" Destination="ConsumerInt.SD2" dx1="489.47"/>
+			<Connection Source="INT2INT.OUT" Destination="ConsumerInt.SD3" dx1="489.47"/>
+			<Connection Source="INT2INT.OUT" Destination="ConsumerInt.SD4" dx1="489.47"/>
+		</DataConnections>
+	</SubAppNetwork>
+</SubAppType>

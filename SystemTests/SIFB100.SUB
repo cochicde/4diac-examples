@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SubAppType Name="SIFB100" Comment="Subapplication Type">
+	<Identification Standard="61499-2">
+	</Identification>
+	<VersionInfo Version="1.0" Author="cochicde" Date="2025-05-03">
+	</VersionInfo>
+	<CompilerInfo>
+	</CompilerInfo>
+	<SubAppInterfaceList>
+		<SubAppEventInputs>
+			<SubAppEvent Name="EI0" Type="Event">
+			</SubAppEvent>
+		</SubAppEventInputs>
+		<SubAppEventOutputs>
+			<SubAppEvent Name="CNF" Type="Event">
+			</SubAppEvent>
+		</SubAppEventOutputs>
+	</SubAppInterfaceList>
+	<SubAppNetwork>
+		<FB Name="GeneratorInt_2" Type="performance::GeneratorInt" x="100" y="1400">
+		</FB>
+		<FB Name="GeneratorInt_1" Type="performance::GeneratorInt" x="100" y="800">
+		</FB>
+		<FB Name="GeneratorInt_3" Type="performance::GeneratorInt" x="100" y="2000">
+		</FB>
+		<FB Name="GeneratorInt" Type="performance::GeneratorInt" x="0" y="0">
+		</FB>
+		<FB Name="GeneratorInt_4" Type="performance::GeneratorInt" x="100" y="2700">
+		</FB>
+		<FB Name="GeneratorInt_10" Type="performance::GeneratorInt" x="1900" y="800">
+		</FB>
+		<FB Name="GeneratorInt_11" Type="performance::GeneratorInt" x="1900" y="2700">
+		</FB>
+		<FB Name="GeneratorInt_12" Type="performance::GeneratorInt" x="1800" y="0">
+		</FB>
+		<FB Name="GeneratorInt_13" Type="performance::GeneratorInt" x="1900" y="1400">
+		</FB>
+		<FB Name="GeneratorInt_14" Type="performance::GeneratorInt" x="1900" y="2000">
+		</FB>
+		<EventConnections>
+			<Connection Source="EI0" Destination="GeneratorInt.REQ" dx1="2284.21"/>
+			<Connection Source="GeneratorInt_1.INITO" Destination="GeneratorInt_2.REQ" dx1="63.16" dx2="63.16" dy="300"/>
+			<Connection Source="GeneratorInt_3.INITO" Destination="GeneratorInt_4.REQ" dx1="63.16" dx2="63.16" dy="347.37"/>
+			<Connection Source="GeneratorInt_2.INITO" Destination="GeneratorInt_3.REQ" dx1="63.16" dx2="63.16" dy="300"/>
+			<Connection Source="GeneratorInt.INITO" Destination="GeneratorInt_1.REQ" dx1="63.16" dx2="63.16" dy="400"/>
+			<Connection Source="GeneratorInt_13.INITO" Destination="GeneratorInt_14.REQ" dx1="63.16" dx2="63.16" dy="300"/>
+			<Connection Source="GeneratorInt_10.INITO" Destination="GeneratorInt_13.REQ" dx1="63.16" dx2="63.16" dy="300"/>
+			<Connection Source="GeneratorInt_14.INITO" Destination="GeneratorInt_11.REQ" dx1="63.16" dx2="63.16" dy="347.37"/>
+			<Connection Source="GeneratorInt_12.INITO" Destination="GeneratorInt_10.REQ" dx1="63.16" dx2="63.16" dy="400"/>
+			<Connection Source="GeneratorInt_4.INITO" Destination="GeneratorInt_12.REQ" dx1="484.21"/>
+			<Connection Source="GeneratorInt_11.INITO" Destination="CNF" dx1="2015.79"/>
+		</EventConnections>
+	</SubAppNetwork>
+</SubAppType>
